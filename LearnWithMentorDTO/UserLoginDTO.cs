@@ -8,6 +8,7 @@ namespace LearnWithMentorDTO
         {
             Email = email;
             Password = password;
+            Role = role;
         }
 
         [Required]
@@ -17,5 +18,8 @@ namespace LearnWithMentorDTO
 
         [Required]
         public string Password { get; set; }
+
+        [Required]
+        public string Role { set; get; }
     }
 }
