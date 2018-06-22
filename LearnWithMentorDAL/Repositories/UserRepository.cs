@@ -22,7 +22,6 @@ namespace LearnWithMentorDAL.Repositories
         {
             return context.Groups.FirstOrDefault(g => g.Id == groupId)?.Users;
         }
-
             public IEnumerable<User> Search(string[] str, int? roleId)
         {
             List<User> result = new List<User>();
@@ -69,6 +68,11 @@ namespace LearnWithMentorDAL.Repositories
             if (currentUser != null)
                 fullName = string.Concat(currentUser.FirstName, " ", currentUser.LastName);
             return fullName;
+        }
+
+        public IEnumerable<User> GetUsersNotInGroup(int groupId)
+        {
+            return context.Groups.FirstOrDefault(g => g.Id != groupId)?.Users;
         }
     }
 }

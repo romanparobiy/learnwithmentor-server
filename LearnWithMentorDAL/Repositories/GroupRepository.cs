@@ -32,5 +32,6 @@ namespace LearnWithMentorDAL.Repositories
             context.Groups.FirstOrDefault(group => group.Id == groupId).Users.Add(userAdd);
             return true;
         }
+
     }
 }

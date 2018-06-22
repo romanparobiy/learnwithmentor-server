@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LearnWithMentorBLL.Infrastructure;
 using LearnWithMentorBLL.Interfaces;
 using LearnWithMentorDAL;
 using LearnWithMentorDAL.Entities;
@@ -85,8 +86,9 @@ namespace LearnWithMentorBLL.Services
             return userList;
 
         }
+        
 
-            public IEnumerable<GroupDTO> GetGroupsByMentor(int mentorId)
+        public IEnumerable<GroupDTO> GetGroupsByMentor(int mentorId)
         {
 
            var groups = db.Groups.GetGroupsByMentor(mentorId);
@@ -137,6 +139,41 @@ namespace LearnWithMentorBLL.Services
                 }
             }
             return added;
+        }
+
+        public IEnumerable<User> GetUsersNotInGroup(int groupId)
+        {
+            var group = db.Groups.Get(groupId);
+            if (group == null)
+                throw new ValidationException("Group not found", "");
+            var usersNotInGroup = db.Users.GetUsersNotInGroup(groupId);
+            if (usersNotInGroup == null)
+                throw new ValidationException("User not found", "");
+            return usersNotInGroup;
+        }
+
+        public IEnumerable<UserDTO> SearchUserNotinGroup(string[] str, int groupId)
+        {
+            var usersNotInGroup = GetUsersNotInGroup(groupId);
+            List<UserDTO> usersNotInGroupdto = new List<UserDTO>();
+            foreach (var s in str)
+            {
+                foreach (var u in usersNotInGroup)
+                {
+                    if (u.FirstName.Contains(s) || u.LastName.Contains(s))
+                    {
+                        UserDTO rdDto = new UserDTO(u.Id,
+                            u.FirstName,
+                            u.LastName,
+                            u.Roles.Name,
+                            u.Blocked);
+
+                        if (!usersNotInGroupdto.Contains((rdDto)))
+                            usersNotInGroupdto.Add(rdDto);
+                    }
+                }
+            }
+            return usersNotInGroupdto;
         }
 
     }

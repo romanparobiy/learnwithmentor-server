@@ -12,5 +12,6 @@ namespace LearnWithMentorDAL.Repositories
         IEnumerable<User> GetUsersByRole(int role_id);
         IEnumerable<User> GetUsersByGroup(int groupId);
         string ExtractFullName(int? id);
+        IEnumerable<User> GetUsersNotInGroup(int groupId);
     }
 }
